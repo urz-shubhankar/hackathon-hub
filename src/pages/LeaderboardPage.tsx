@@ -3,17 +3,30 @@ import { motion } from "framer-motion";
 import { Trophy, RefreshCw, ExternalLink, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PageWrapper from "@/components/PageWrapper";
-import { mockTeams, Team } from "@/lib/mock-data";
+// import { mockTeams, Team } from "@/lib/mock-data";
 import { timeAgo } from "@/lib/helpers";
+import { supabase } from "@/lib/supabaseClient";
+
 
 export default function LeaderboardPage() {
-  const [teams, setTeams] = useState<Team[]>([]);
+  const [teams, setTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchTeams = async () => {
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setTeams([...mockTeams].sort((a, b) => b.commits - a.commits));
+
+    const { data, error } = await supabase
+      .from("teams")
+      .select("*");
+
+      if (error) {
+        console.log(error);
+      } else{
+        setTeams(data);
+      }
+
+    
+    
     setLoading(false);
   };
 
@@ -88,24 +101,24 @@ export default function LeaderboardPage() {
                   <span className={getRankStyle(i + 1)}>{getRankBadge(i + 1)}</span>
                 </div>
                 <div className="md:col-span-4">
-                  <p className="font-semibold">{team.name}</p>
+                  <p className="font-semibold">{team.team_name}</p>
                   <a
-                    href={team.repoUrl}
+                    href={team.repo_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1 transition-colors"
                   >
-                    {team.repoUrl.replace("https://github.com/", "")}
+                    {team.repo_url.replace("https://github.com/", "")}
                     <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
                 <div className="md:col-span-3 md:text-center">
-                  <span className="font-mono text-lg font-bold text-primary">{team.commits}</span>
+                  <span className="font-mono text-lg font-bold text-primary">{0}</span>
                   <span className="text-muted-foreground text-xs ml-1">commits</span>
                 </div>
                 <div className="md:col-span-4 md:text-right flex items-center md:justify-end gap-1 text-muted-foreground text-sm">
                   <Clock className="h-3 w-3" />
-                  {timeAgo(team.lastCommitTime)}
+                  "Just now"
                 </div>
               </motion.div>
             ))}
