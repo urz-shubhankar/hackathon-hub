@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import PageWrapper from "@/components/PageWrapper";
 import { isValidGithubUrl } from "@/lib/helpers";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function RegisterPage() {
   const [teamName, setTeamName] = useState("");
@@ -23,15 +24,25 @@ export default function RegisterPage() {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = async (ev: React.FormEvent) => {
-    ev.preventDefault();
-    if (!validate()) return;
-    setLoading(true);
-    // Simulate API call
-    await new Promise((r) => setTimeout(r, 1200));
-    setLoading(false);
-    setSubmitted(true);
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  const { error } = await supabase
+    .from("teams")
+    .insert([
+      {
+        team_name: teamName,
+        repo_url: repoUrl
+      }
+    ])
+
+  if (error) {
+    console.log(error)
+    alert("Error occurred ❌")
+  } else {
+    alert("Team registered successfully 🚀")
+  }
+}
 
   if (submitted) {
     return (
