@@ -53,7 +53,7 @@ export default function LandingPage() {
             className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary mb-6"
           >
             <Zap className="h-3 w-3" />
-            Hackathon 2024 is Live
+            Hackwarts 2026 is Live
           </motion.div>
 
           <motion.h1

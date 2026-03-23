@@ -79,8 +79,8 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
           className="absolute h-px w-[30%] animate-glow-line-h"
           style={{
             top: "12%",
-            background: "linear-gradient(90deg, transparent, hsl(50 95% 55% / 0.7), hsl(50 95% 55% / 0.9), hsl(50 95% 55% / 0.7), transparent)",
-            boxShadow: "0 0 20px 4px hsl(50 95% 55% / 0.4), 0 0 60px 8px hsl(50 95% 55% / 0.2)",
+            background: "linear-gradient(90deg, transparent, hsl(145 70% 50% / 0.7), hsl(300 100% 60% / 0.9), hsl(280 100% 65% / 0.7), transparent)",
+            boxShadow: "0 0 20px 4px hsl(300 100% 60% / 0.4), 0 0 60px 8px hsl(300 100% 60% / 0.2)",
           }}
         />
         {/* Horizontal line – bottom area */}
@@ -89,8 +89,8 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
           style={{
             top: "88%",
             animationDelay: "2s",
-            background: "linear-gradient(90deg, transparent, hsl(50 95% 55% / 0.5), hsl(50 95% 55% / 0.7), hsl(50 95% 55% / 0.5), transparent)",
-            boxShadow: "0 0 15px 3px hsl(50 95% 55% / 0.3), 0 0 40px 6px hsl(50 95% 55% / 0.15)",
+            background: "linear-gradient(90deg, transparent, hsl(145 70% 50% / 0.5), hsl(300 100% 60% / 0.7), hsl(280 100% 65% / 0.5), transparent)",
+            boxShadow: "0 0 15px 3px hsl(300 100% 60% / 0.3), 0 0 40px 6px hsl(300 100% 60% / 0.15)",
           }}
         />
         {/* Vertical line – far left */}
@@ -99,8 +99,8 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
           style={{
             left: "8%",
             animationDelay: "1s",
-            background: "linear-gradient(180deg, transparent, hsl(50 95% 55% / 0.6), hsl(50 95% 55% / 0.8), hsl(50 95% 55% / 0.6), transparent)",
-            boxShadow: "0 0 18px 4px hsl(50 95% 55% / 0.35), 0 0 50px 8px hsl(50 95% 55% / 0.18)",
+            background: "linear-gradient(180deg, transparent, hsl(145 70% 50% / 0.6), hsl(300 100% 60% / 0.8), hsl(280 100% 65% / 0.6), transparent)",
+            boxShadow: "0 0 18px 4px hsl(300 100% 60% / 0.35), 0 0 50px 8px hsl(300 100% 60% / 0.18)",
           }}
         />
       </div>
