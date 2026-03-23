@@ -90,8 +90,8 @@
   }
   .bg-grid {
     background-image: 
-      linear-gradient(hsl(var(--glow) / 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--glow) / 0.06) 1px, transparent 1px);
+      linear-gradient(hsl(var(--glow) / 0.15) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--glow) / 0.15) 1px, transparent 1px);
     background-size: 60px 60px;
   }
   .bg-gradient-radial {
@@ -117,6 +117,20 @@
   50% { opacity: 0.08; }
 }
 
+@keyframes glow-line-h {
+  0% { left: -20%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 120%; opacity: 0; }
+}
+
+@keyframes glow-line-v {
+  0% { top: -20%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 120%; opacity: 0; }
+}
+
 .animate-page-reveal {
   animation: page-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -127,4 +141,12 @@
 
 .animate-glow-pulse-bg {
   animation: glow-pulse-bg 4s ease-in-out infinite;
+}
+
+.animate-glow-line-h {
+  animation: glow-line-h 4s ease-in-out infinite;
+}
+
+.animate-glow-line-v {
+  animation: glow-line-v 5s ease-in-out infinite;
 }
