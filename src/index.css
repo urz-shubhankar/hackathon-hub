@@ -90,8 +90,8 @@
   }
   .bg-grid {
     background-image: 
-      linear-gradient(hsl(var(--glow) / 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--glow) / 0.06) 1px, transparent 1px);
+      linear-gradient(hsl(var(--glow) / 0.15) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--glow) / 0.15) 1px, transparent 1px);
     background-size: 60px 60px;
   }
   .bg-gradient-radial {
