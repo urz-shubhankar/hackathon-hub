@@ -7,6 +7,20 @@ import PageWrapper from "@/components/PageWrapper";
 import { timeAgo } from "@/lib/helpers";
 import { supabase } from "@/lib/supabaseClient";
 
+// Repo related
+const getRepoDetails = (url) => {
+  const cleanUrl = url
+    .replace("https://github.com/", "")
+    .replace(".git", ""); // 🔥 remove .git
+
+  const parts = cleanUrl.split("/");
+
+  return {
+    owner: parts[0],
+    repo: parts[1],
+  };
+};
+
 
 export default function LeaderboardPage() {
   const [teams, setTeams] = useState<any[]>([]);
@@ -21,14 +35,40 @@ export default function LeaderboardPage() {
 
       if (error) {
         console.log(error);
-      } else{
-        setTeams(data);
-      }
+        setLoading(false);
+        return;
+      } 
+       // fetch commits for each team
+       const updatedTeams = await Promise.all(
+        data.map(async (team) => {
+          try{
+            const { owner, repo } = getRepoDetails(team.repo_url);
+            const response = await fetch(
+              `https://api.github.com/repos/${owner}/${repo}/commits`
+            );
+            const commits = await response.json();
+            return {
+              ...team,
+              commits:Array.isArray(commits) ? commits.length : 0,
+              lastCommitTime:commits?.[0]?.commit?.author?.date || null,
+            };
+          }catch(err){
+            console.log(`Error fetching commits for ${team.team_name}:`, err);
+            return {
+              ...team,
+              commits: 0,
+              lastCommitTime: null,
+            };
+          }
+        })
+      );
+          // sort leaderboard
+          updatedTeams.sort((a, b) => b.commits - a.commits);
 
-    
-    
-    setLoading(false);
-  };
+         setTeams(updatedTeams);
+         setLoading(false);
+      };
+
 
   useEffect(() => {
     fetchTeams();
