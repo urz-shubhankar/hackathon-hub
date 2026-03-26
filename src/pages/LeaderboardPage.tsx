@@ -20,6 +20,15 @@ const getRepoDetails = (url: string) => {
 };
 
 export default function LeaderboardPage() {
+
+  // ✅ ADD HERE
+  const getRankIcon = (rank: number) => {
+    if (rank === 1) return "🥇";
+    if (rank === 2) return "🥈";
+    if (rank === 3) return "🥉";
+    return `#${rank}`;
+  };
+
   const [teams, setTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -97,71 +106,94 @@ export default function LeaderboardPage() {
   };
 
   return (
-    <PageWrapper>
-      <div className="container mx-auto px-4 py-20">
-        
-        {/* HEADER */}
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center gap-2">
-            <Trophy className="h-6 w-6 text-primary" />
-            <h1 className="text-3xl font-bold">Leaderboard</h1>
-          </div>
+  <PageWrapper>
+    <div className="container mx-auto px-4 py-10 max-w-6xl">
 
-          <Button onClick={fetchTeams}>
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Refresh
-          </Button>
-        </div>
+      {/* HEADER */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold flex items-center gap-2">
+          🏆 Leaderboard
+        </h1>
 
-        {/* LOADING */}
-        {loading ? (
-          <p>Loading...</p>
-        ) : teams.length === 0 ? (
-          <p>No teams registered yet</p>
-        ) : (
-          <div className="space-y-4">
-
-            {/* TABLE HEADER */}
-            <div className="grid grid-cols-4 text-sm font-semibold border-b pb-2">
-              <div>Rank</div>
-              <div>Team</div>
-              <div>Commits</div>
-              <div>Last Commit</div>
-            </div>
-
-            {/* TEAMS */}
-            {teams.map((team, i) => (
-              <motion.div
-                key={team.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="grid grid-cols-4 items-center border p-4 rounded-lg"
-              >
-                <div>#{i + 1}</div>
-
-                <div>
-                  <p className="font-semibold">{team.team_name}</p>
-                  <a
-                    href={team.repo_url}
-                    target="_blank"
-                    className="text-xs flex items-center gap-1"
-                  >
-                    {team.repo_url}
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                </div>
-
-                <div>{team.commits} commits</div>
-
-                <div className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  {timeAgo(team.lastCommitTime)}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+        <button
+          onClick={fetchTeams}
+          className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg text-black font-semibold transition"
+        >
+          Refresh
+        </button>
       </div>
-    </PageWrapper>
-  );
-}
+
+      {/* SUBTEXT */}
+      <p className="text-sm text-gray-400 mb-8">
+        Live ranking based on GitHub commits 🚀
+      </p>
+
+      {/* CONTENT */}
+      {loading ? (
+        <p className="text-center text-gray-400">Loading...</p>
+      ) : teams.length === 0 ? (
+        <p className="text-center text-gray-400">
+          No teams registered yet
+        </p>
+      ) : (
+        <div className="space-y-6">
+
+          {/* TABLE HEADER */}
+          <div className="grid grid-cols-4 text-sm text-gray-400 px-4">
+            <div>Rank</div>
+            <div>Team</div>
+            <div className="text-center">Commits</div>
+            <div className="text-right">Last Commit</div>
+          </div>
+
+          {/* TEAMS */}
+          {teams.map((team, i) => (
+            <div
+              key={team.id}
+              className={`grid grid-cols-4 items-center bg-[#0f172a]/40 backdrop-blur-md rounded-xl px-4 py-5 border transition-all
+                ${
+                  i === 0
+                    ? "border-yellow-400 shadow-lg shadow-yellow-500/30"
+
+                    : i===1?"border-green-400 shadow-lg shadow-green-500/20"
+                    : i===2?"border-orange-400 shadow-lg shadow-red-500/20"
+                    : "border-gray-700 hover:border-gray-500"
+                }`}
+            >
+              {/* RANK */}
+              <div className="font-semibold text-lg">
+                {getRankIcon(i + 1)}
+              </div>
+
+              {/* TEAM */}
+              <div>
+                <p className="font-semibold">
+                  {team.team_name}
+                </p>
+                <p className="text-xs text-gray-400">
+                  Private Repository 🔒
+                </p>
+              </div>
+
+              {/* COMMITS */}
+              <div className="text-center">
+                <p className="text-xl font-bold text-green-400">
+                  {team.commits}
+                </p>
+                <p className="text-xs text-gray-400">commits</p>
+              </div>
+
+              {/* LAST COMMIT */}
+              <div className="text-right text-sm text-gray-400">
+                {team.lastCommitTime
+                  ? timeAgo(team.lastCommitTime)
+                  : "Just now"}
+              </div>
+            </div>
+          ))}
+
+        </div>
+      )}
+    </div>
+  </PageWrapper>
+);}
